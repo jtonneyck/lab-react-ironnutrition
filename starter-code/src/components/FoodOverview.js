@@ -7,7 +7,7 @@ const FoodOverview = ({foods}) => {
             <h1>Today's foods</h1>
             <ul>
                 {foods && foods.map((food)=> 
-                    <li>{food.amount} {food.name}(s) = {food.amount * food.calories}</li>
+                    food.quantity > 0 && <li>{food.quantity} {food.name}(s) = {food.quantity * food.calories}</li>
                 )}
             </ul>
         </div>

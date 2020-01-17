@@ -1,20 +1,34 @@
-import React from 'react';
-import 'bulma/css/bulma.css';
+import React, { Component } from 'react'
+import "./FoodBox.scss";
 
-const FoodBox = ({name, calories, image, quantity }) => {
-    return (
-        <div className="box">
+export default class FoodBox extends Component {
+    //{name, calories, image, quantity, updateFood, ...props}
+    constructor({quantity, ...props}){
+        super({quantity, ...props})
+        this.state = {
+            quantity: quantity
+        }
+        this.handleQuantityInputChange = this.handleQuantityInputChange.bind(this);
+    }
+
+    handleQuantityInputChange(e){
+        this.setState({[e.target.name]: e.target.value})
+    }
+
+    render() {
+        return (
+        <div className="box food-box">
             <article className="media">
                 <div className="media-left">
                 <figure className="image is-64x64">
-                    <img src={image} />
+                    <img src={this.props.image} />
                 </figure>
                 </div>
                 <div className="media-content">
                 <div className="content">
                     <p>
-                    <strong>{name}</strong> <br />
-                    <small>{calories} cal</small>
+                    <strong>{this.props.name}</strong> <br />
+                    <small>{this.props.calories} cal</small>
                     </p>
                 </div>
                 </div>
@@ -24,19 +38,24 @@ const FoodBox = ({name, calories, image, quantity }) => {
                     <input
                         className="input"
                         type="number" 
-                        value="1"
+                        name="quantity"
+                        onChange={this.handleQuantityInputChange}
+                        value={this.state.quantity}
                     />
                     </div>
                     <div className="control">
-                    <button className="button is-info">
-                        +
-                    </button>
+                        <button className="button is-info" onClick={()=>{this.props.updateFood(this.props.name, this.state.quantity)}}>
+                            +
+                        </button>
+                    </div>
+                    <div className="control">
+                        <i onClick={()=>{this.props.removeFood(this.props.name)}} class="fa fa-trash is-info"/>
                     </div>
                 </div>
                 </div>
             </article>
         </div>
-    );
+        )
+    }
 }
 
-export default FoodBox;
